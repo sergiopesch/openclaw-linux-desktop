@@ -1,0 +1,9 @@
+node_modules/
+.artifacts/
+.git/
+.github/
+scripts/
+*.log
+*.tmp
+*.tgz
+.DS_Store

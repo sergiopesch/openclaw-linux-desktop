@@ -1,0 +1,67 @@
+{
+  "name": "@sergiopesch/linux-desktop",
+  "version": "0.1.0",
+  "description": "Wayland-safe Linux desktop status, app inventory, USB inventory, app launch, media control, portal screenshots, and screen reading for OpenClaw.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Sergio Pesch",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sergiopesch/openclaw-linux-desktop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sergiopesch/openclaw-linux-desktop/issues"
+  },
+  "homepage": "https://github.com/sergiopesch/openclaw-linux-desktop#readme",
+  "files": [
+    "dist/",
+    "src/",
+    "index.ts",
+    "openclaw.plugin.json",
+    "README.md",
+    "DOCS.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "SECURITY.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "node scripts/validate-plugin.mjs && node scripts/audit-plugin.mjs --output .artifacts/linux-desktop-plugin-audit.json",
+    "audit": "node scripts/audit-plugin.mjs --output .artifacts/linux-desktop-plugin-audit.json",
+    "prepack": "npm run build && npm test"
+  },
+  "engines": {
+    "node": ">=22.19"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.6.1"
+  },
+  "peerDependenciesMeta": {
+    "openclaw": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.3"
+  },
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "runtimeExtensions": [
+      "./dist/index.js"
+    ],
+    "compat": {
+      "pluginApi": ">=2026.6.1",
+      "minGatewayVersion": "2026.6.1"
+    },
+    "build": {
+      "openclawVersion": "2026.6.1",
+      "pluginSdkVersion": "2026.6.1"
+    }
+  }
+}

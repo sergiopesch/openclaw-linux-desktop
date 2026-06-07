@@ -1,0 +1,178 @@
+{
+  "id": "linux-desktop",
+  "name": "Linux Desktop",
+  "description": "Wayland-safe Linux desktop status, app inventory, USB inventory, app launch, media control, portal screenshots, and screen reading for OpenClaw.",
+  "version": "0.1.0",
+  "activation": {
+    "onStartup": true
+  },
+  "contracts": {
+    "tools": ["linux_desktop"]
+  },
+  "toolMetadata": {
+    "linux_desktop": {
+      "optional": true
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "actions": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": { "type": "boolean" },
+          "appsList": { "type": "boolean" },
+          "appsLaunch": { "type": "boolean" },
+          "devicesUsb": { "type": "boolean" },
+          "windowsList": { "type": "boolean" },
+          "windowsFocus": { "type": "boolean" },
+          "mediaStatus": { "type": "boolean" },
+          "mediaControl": { "type": "boolean" },
+          "screenCapture": { "type": "boolean" },
+          "screenRead": { "type": "boolean" }
+        }
+      },
+      "maxApps": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 1000
+      },
+      "includeNoDisplayApps": {
+        "type": "boolean"
+      },
+      "allowedAppIds": {
+        "type": "array",
+        "maxItems": 200,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "pattern": "^(?:[A-Za-z0-9]+\\.desktop|(?!.*(?:^|[_.-])(?:api[_-]?key|access[_-]?key|access[_-]?token|refresh[_-]?token|session[_-]?token|client[_-]?secret|authorization|bearer[_-]?token|oauth[_-]?token|token|password|secret|secret[_-]?access[_-]?key|credentials?|private[_-]?key)(?:[_.-]))[A-Za-z0-9][A-Za-z0-9._-]*\\.desktop)$"
+        }
+      },
+      "allowedAppLaunchers": {
+        "type": "array",
+        "maxItems": 200,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "sha256"],
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^(?:[A-Za-z0-9]+\\.desktop|(?!.*(?:^|[_.-])(?:api[_-]?key|access[_-]?key|access[_-]?token|refresh[_-]?token|session[_-]?token|client[_-]?secret|authorization|bearer[_-]?token|oauth[_-]?token|token|password|secret|secret[_-]?access[_-]?key|credentials?|private[_-]?key)(?:[_.-]))[A-Za-z0-9][A-Za-z0-9._-]*\\.desktop)$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      },
+      "allowedMediaPlayers": {
+        "type": "array",
+        "maxItems": 100,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "pattern": "^(org\\.mpris\\.MediaPlayer2\\.)?(?!.*(?:^|[_.-])(?:api[_-]?key|access[_-]?key|access[_-]?token|refresh[_-]?token|session[_-]?token|client[_-]?secret|authorization|bearer[_-]?token|oauth[_-]?token|token|password|secret|secret[_-]?access[_-]?key|credentials?|private[_-]?key)(?:$|[_.-]))[A-Za-z0-9][A-Za-z0-9_.-]*$"
+        }
+      },
+      "allowedMediaActions": {
+        "type": "array",
+        "maxItems": 6,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "enum": ["play", "pause", "playPause", "next", "previous", "stop"]
+        }
+      },
+      "windows": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": { "type": "boolean" },
+          "allowX11": { "type": "boolean" },
+          "includeTitles": { "type": "boolean" },
+          "allowedFocusClasses": {
+            "type": "array",
+            "maxItems": 200,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(?:[A-Za-z0-9]+|(?!.*(?:^|[_.-])(?:api[_-]?key|access[_-]?key|access[_-]?token|refresh[_-]?token|session[_-]?token|client[_-]?secret|authorization|bearer[_-]?token|oauth[_-]?token|token|password|secret|secret[_-]?access[_-]?key|credentials?|private[_-]?key)(?:$|[_.-]))[A-Za-z0-9][A-Za-z0-9_.-]*)$"
+            }
+          }
+        }
+      },
+      "screenCapture": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": { "type": "boolean" },
+          "outputDir": {
+            "type": "string",
+            "pattern": "^output(?:/[A-Za-z0-9][A-Za-z0-9._-]*)*$"
+          },
+          "timeoutMs": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300000
+          }
+        }
+      },
+      "screenRead": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": { "type": "boolean" },
+          "allowCapture": { "type": "boolean" }
+        }
+      }
+    }
+  },
+  "uiHints": {
+    "actions": {
+      "label": "Linux Desktop Actions",
+      "help": "Per-action gates for the optional linux_desktop tool."
+    },
+    "maxApps": {
+      "label": "Max Apps",
+      "help": "Maximum desktop entries returned by apps.list."
+    },
+    "includeNoDisplayApps": {
+      "label": "Include Hidden Apps",
+      "help": "Include NoDisplay desktop entries in apps.list by default."
+    },
+    "allowedAppIds": {
+      "label": "Allowed App IDs",
+      "help": "Exact XDG desktop entry ids that apps.launch may start."
+    },
+    "allowedAppLaunchers": {
+      "label": "Allowed App Launchers",
+      "help": "Exact desktop entry id and SHA-256 fingerprints required for user or otherwise untrusted app launchers."
+    },
+    "allowedMediaPlayers": {
+      "label": "Allowed Media Players",
+      "help": "MPRIS player ids or full org.mpris.MediaPlayer2.* service names that media.control may target."
+    },
+    "allowedMediaActions": {
+      "label": "Allowed Media Actions",
+      "help": "MPRIS transport actions that media.control may perform."
+    },
+    "windows": {
+      "label": "Window Control",
+      "help": "Explicit opt-in settings for X11 window inventory and focus. GNOME/Wayland returns unsupported instead of using compositor internals."
+    },
+    "screenCapture": {
+      "label": "Screen Capture",
+      "help": "Explicit opt-in settings for xdg-desktop-portal screenshot capture."
+    },
+    "screenRead": {
+      "label": "Screen Read",
+      "help": "Explicit opt-in settings for attaching screen artifacts to Gateway agent tool results."
+    }
+  }
+}
